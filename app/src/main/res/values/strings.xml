@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Numbering System</string>
+    <string name="numbering_system">Numbering System</string>
+    <string name="decimal">Deci</string>
+    <string name="hexa">Hexa</string>
+    <string name="_1100">1100</string>
+    <string name="convert">Convert</string>
+    <string name="clean">clean</string>
+    <string name="binary">BIN</string>
+    <string name="octal">Octal</string>
+</resources>
