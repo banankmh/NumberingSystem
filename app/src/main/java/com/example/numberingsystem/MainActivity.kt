@@ -2,6 +2,7 @@ package com.example.numberingsystem
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -32,7 +33,6 @@ class MainActivity : AppCompatActivity() {
             clearInput()
         }
         buttonToBinary.setOnClickListener {
-
             prepareOperation(NumbringSystem.ToBinary)
         }
         buttonToDecimal.setOnClickListener {
@@ -46,34 +46,50 @@ class MainActivity : AppCompatActivity() {
         }
         buttonConvert.setOnClickListener {
             doCurrentConversion()
-
         }
     }
-
-
 
     private fun doCurrentConversion() {
         val inputNumber = enterdeNumber.text.toString()
         if (inputNumber.isNotEmpty()) {
 
-                number = inputNumber.toDouble()
-                when (currentNumberSystem) {
-                    NumbringSystem.ToBinary -> result.text = number.toLong().toString(2)
-                    NumbringSystem.ToDecimal -> result.text = number.toString()
-                    NumbringSystem.ToOctal -> result.text = number.toLong().toString(8)
-                    NumbringSystem.ToHexa -> result.text = number.toLong().toString(16)
-                    null -> result.text = "Please select a conversion option"
-                }
+            number = inputNumber.toDouble()
+            when (currentNumberSystem) {
+                NumbringSystem.ToBinary -> result.text = convertNumber(number, NumbringSystem.ToDecimal, NumbringSystem.ToBinary)
+                NumbringSystem.ToDecimal -> result.text = number.toString()
+                NumbringSystem.ToOctal -> result.text = convertNumber(number, NumbringSystem.ToDecimal,  NumbringSystem.ToOctal)
+                NumbringSystem.ToHexa -> result.text = convertNumber(number,  NumbringSystem.ToDecimal,  NumbringSystem.ToHexa)
+                null -> result.text = "Please select a conversion option"
+            }
 
         } else {
             result.text = "Please enter a number to convert"
         }
     }
 
-    private fun prepareOperation(numberSystem: NumbringSystem) {
-        number=enterdeNumber.text.toString().toDouble()
-        currentNumberSystem = numberSystem
+    private fun convertNumber(inputValue: Double, inputSystem: NumbringSystem, outputSystem:NumbringSystem): String {
+        val intValue = when (inputSystem) {
+            NumbringSystem.ToDecimal-> inputValue.toLong()
+            NumbringSystem.ToBinary-> Integer.parseInt(inputValue.toLong().toString(), 2).toLong()
+            NumbringSystem.ToOctal-> Integer.parseInt(inputValue.toLong().toString(), 8).toLong()
+            NumbringSystem.ToHexa-> Integer.parseInt(inputValue.toLong().toString(), 16).toLong()
+            else -> 0
+        }
 
+        val outputValue = when (outputSystem) {
+            NumbringSystem.ToDecimal-> intValue.toString()
+            NumbringSystem.ToBinary-> java.lang.Long.toBinaryString(intValue)
+            NumbringSystem.ToOctal-> java.lang.Long.toOctalString(intValue)
+            NumbringSystem.ToHexa -> java.lang.Long.toHexString(intValue)
+            else -> ""
+        }
+
+        return outputValue
+    }
+
+    private fun prepareOperation(numberSystem: NumbringSystem) {
+        number = enterdeNumber.text.toString().toDouble()
+        currentNumberSystem = numberSystem
     }
 
     private fun clearInput() {

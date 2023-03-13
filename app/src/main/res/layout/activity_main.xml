@@ -36,7 +36,7 @@
         android:ems="10"
         android:gravity="left|center"
         android:hint="@string/_1100"
-        android:inputType="number"
+        android:inputType="text"
         android:maxLines="1"
         android:padding="16dp"
         android:singleLine="true"
